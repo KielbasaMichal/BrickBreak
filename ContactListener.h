@@ -1,6 +1,9 @@
 #pragma once
-#include "head.h"
+#include "class_header.h"
 
+///ContactListener
+//Klasa do wykrywania kolizji pomiedzy ball a block
+//Po zakonczeniu kolizji flaga w klasie block zostaje ustawiona
 
 class ContactListener : public b2ContactListener
 {

@@ -1,10 +1,15 @@
 #include "head.h"
+using namespace std;
 
 #define alert_x 450
 #define alert_y 150
 
 void alert_screen(string alert, int number_of_button, const string button_string[], void (*func[])(sf::RenderWindow&) )
 {
+	//Texture load
+	sf::Texture button_back;
+	button_back.loadFromFile("data/button0.png");
+
 	//Mozemy maksymalnie wypisac 4 przyciski wiec dodatkowe nie zostana narysowane
 	if (number_of_button > 4)
 		number_of_button = 4;
@@ -22,8 +27,7 @@ void alert_screen(string alert, int number_of_button, const string button_string
 	int space = _space;
 	for (int i = 0; i < number_of_button; i++)
 	{
-		cout << space << "{}";
-		buttons.push_back(new button(sf::Vector2f(100.f, 30.f), sf::Vector2f(space, 100), button_string[i], font, sf::Color::White));
+		buttons.push_back(new button(sf::Vector2f(100.f, 30.f), sf::Vector2f(space, 100), button_string[i], font, 30, sf::Color::White, button_back));
 		space += 100 + _space;
 	}
 	cout << endl;

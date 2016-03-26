@@ -1,26 +1,30 @@
 #pragma once
-#include "head.h"
 
+#include "class_header.h"
+
+///block.h
 //Pozycja liczona od srodka elementu
 
 class block : public sf::RectangleShape
 {
-	bool m_contact;
-	b2Body * b2_block_body;
-	b2World* world;
+	sf::Texture* _texture;
+	bool _contact;
+	b2Body * _b2_block_body;
+	b2World* _world;
 public:
-	block(float size, sf::Vector2f position, b2World &world, sf::Color color = sf::Color::Transparent);
-	block(float size, float size2, sf::Vector2f position, b2World &world, sf::Color color = sf::Color::Transparent);
+	block(sf::Vector2f size, sf::Vector2f position, b2World &world, std::string src_img);
+	block(float size_x, float size_y, float pos_x, float pos_y, b2World &world, std::string src_img);
+
+	block(sf::Vector2f size, sf::Vector2f position, b2World &world, sf::Texture &src_tex);
+	block(float size_x, float size_y, float pos_x, float pos_y, b2World & world, sf::Texture &src_tex);
+
 	~block();
 
-	void update_pos();
 	b2Body* getBody();
 
-	//Funkcje do zmiany statutu kolizji pilki z klockiem
+	//Funkcje do wykrywania kolizji, do klasy ContactListener
 	void setContact();
 	bool isContact();
 
-	//Uruchamianie lowowego generowania
-	static void rand_init();
 };
 

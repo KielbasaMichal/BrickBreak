@@ -1,21 +1,20 @@
 #include "head.h"
 
+using namespace std;
 
 vector <block*> Block;
 
 //Dane to okna alertu
-string tekst[] = { "OK", "End", "aaaaa", "bbbb" };
+string tekst[] = { "OK", "End"};
 
 void ok_but(sf::RenderWindow& windows)
 {
-	cout << "OK Button" << endl;
 	States = Start;
 	windows.close();
 }
 
 void end_but(sf::RenderWindow& windows)
 {
-	cout << "Cancle Button" << endl;
 	States = End;
 	windows.close();
 }
@@ -24,6 +23,12 @@ void(*func[])(sf::RenderWindow&) = { ok_but, end_but };
 
 void play_screen()
 {
+	//Load texture
+	sf::Texture button_back, block_back, wall_back;
+	button_back.loadFromFile("data/button0.png");
+	block_back.loadFromFile("data/block0.png");
+	wall_back.loadFromFile("data/wall0.png");
+
 	//Game status
 	bool game_start = false;
 
@@ -38,29 +43,27 @@ void play_screen()
 	int32 velocityIterations = 6;
 	int32 positionIterations = 2;
 
-	button back(sf::Vector2f(150, 75), sf::Vector2f(5, 5), "BACK", font, sf::Color::Yellow);
+	button back(sf::Vector2f(150, 75), sf::Vector2f(5, 5), "BACK", font, 30, sf::Color::Black, button_back);
 	
 	//Start create game object
-	block::rand_init();			//srand for using rand
-
 	Block.clear();
 	for (int i = 0; i < 7; i++)
 	{
-		Block.push_back(new block(50.f, sf::Vector2f(350.f + i * 100, 200.f), world));
+		Block.push_back(new block(sf::Vector2f(50, 75), sf::Vector2f(350.f + i * 100, 200.f), world, block_back));
 	}
 
 	ball ball(15, sf::Vector2f(800, 400), world, "data/ball.png");
-	paddle pal(150, 50, sf::Vector2f(650, 620), world, sf::Color::Magenta);
+	paddle pal(sf::Vector2f(150, 50), sf::Vector2f(650, 620), world, "data/paddle0.png");
 
 	//board
-	wall wall_1(50.f, 600.f, 200.f, 50.f, world, sf::Color::Green);
-	wall wall_2(50.f, 600.f, 1100.f, 50.f, world, sf::Color::Green);
-	wall wall_3(850.f, 50.f, 250.f, 50.f, world, sf::Color::Green);
-	board board(850.f, 550.f, 250.f, 100.f);	
+	wall wall_1(50.f, 600.f, 200.f, 50.f, world, wall_back);
+	wall wall_2(50.f, 600.f, 1100.f, 50.f, world, wall_back);
+	wall wall_3(850.f, 50.f, 250.f, 50.f, world, wall_back);
+	board board(850.f, 550.f, 250.f, 100.f, "data/board.png");	
 	//End create object
 
 	//Counter
-	counter Counter(sf::Vector2f(150, 75), sf::Vector2f(20, 200), font, sf::Color::Yellow);
+	counter Counter(sf::Vector2f(150, 75), sf::Vector2f(20, 200), font, button_back);
 
 	//Static step object
 	sf::Clock clock;
@@ -129,16 +132,17 @@ void play_screen()
 		windows.clear(sf::Color::Black);
 
 		windows.draw(board);
-		windows.draw(ball);
+		windows.draw(wall_1);
+		windows.draw(wall_2);
+		windows.draw(wall_3);
 
 		for (unsigned int i = 0;i < Block.size(); i++)
 			windows.draw(*Block[i]);
 
-		windows.draw(wall_1);
-		windows.draw(wall_2);
-		windows.draw(wall_3);
-		windows.draw(back);
+		windows.draw(ball);
 		windows.draw(pal);
+
+		windows.draw(back);
 		windows.draw(Counter);
 
 		windows.display();

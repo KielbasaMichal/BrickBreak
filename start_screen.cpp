@@ -2,8 +2,12 @@
 
 void start_screen()
 {
-	button start(sf::Vector2f(150, 75), sf::Vector2f(565, 300), "START", font, sf::Color::Yellow);
-	button exit(sf::Vector2f(150, 75), sf::Vector2f(565, 400), "WYJSCIE", font, sf::Color::Yellow);
+	//Texture load
+	sf::Texture button_back;
+	button_back.loadFromFile("data/button0.png");
+
+	button start(sf::Vector2f(150, 75), sf::Vector2f(565, 300), "START", font, 40, sf::Color::Black, button_back);
+	button exit(sf::Vector2f(150, 75), sf::Vector2f(565, 400), "WYJSCIE", font, 40, sf::Color::Black, button_back);
 
 	while (States == Start)
 	{

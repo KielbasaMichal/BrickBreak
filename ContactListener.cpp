@@ -1,5 +1,5 @@
 #include "ContactListener.h"
-
+#include "block.h"
 
 
 ContactListener::ContactListener()
