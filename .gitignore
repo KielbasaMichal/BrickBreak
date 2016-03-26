@@ -7,8 +7,8 @@
 *.userosscache
 *.sln.docstates
 *.dll
-*.vcxproj
-*.vcxproj.filters
+BrickBreak.vcxproj
+BrickBreak.vcxproj.filters
 
 # User-specific files (MonoDevelop/Xamarin Studio)
 *.userprefs
@@ -284,5 +284,3 @@ $RECYCLE.BIN/
 
 # Windows shortcuts
 *.lnk
-*.vcxproj
-*.filters
