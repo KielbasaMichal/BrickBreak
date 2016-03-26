@@ -1,12 +1,15 @@
 #include "ball.h"
 
 
-ball::ball(float r, sf::Vector2f position, b2World &world)
+ball::ball(float r, sf::Vector2f position, b2World &world, std::string src_img)
 {
+	//SFML init
+	texture.loadFromFile(src_img);
+	setTexture(&texture);
 	setRadius(r);
 	setPosition(position);
-	setFillColor(sf::Color(rand() % 256, rand() % 256, rand() % 256, 255));
 	setOrigin(r, r);
+	
 	//Box2D init
 	b2_ball.position.Set(pxtom(position.x - WIDTH / 2), pxtom(position.y - HEIGHT / 2)*-1);
 	b2_ball.type = b2_dynamicBody;

@@ -49,7 +49,7 @@ void play_screen()
 		Block.push_back(new block(50.f, sf::Vector2f(350.f + i * 100, 200.f), world));
 	}
 
-	ball ball(15, sf::Vector2f(800, 400), world);
+	ball ball(15, sf::Vector2f(800, 400), world, "data/ball.png");
 	paddle pal(150, 50, sf::Vector2f(650, 620), world, sf::Color::Magenta);
 
 	//board
