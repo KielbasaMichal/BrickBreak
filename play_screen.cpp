@@ -4,20 +4,22 @@
 vector <block*> Block;
 
 //Dane to okna alertu
-string tekst[] = { "OK", "Cancle" };
+string tekst[] = { "OK", "End", "aaaaa", "bbbb" };
 
 void ok_but(sf::RenderWindow& windows)
 {
+	cout << "OK Button" << endl;
 	States = Start;
 	windows.close();
 }
 
-void cancle_but(sf::RenderWindow& windows)
+void end_but(sf::RenderWindow& windows)
 {
 	cout << "Cancle Button" << endl;
+	States = End;
 	windows.close();
 }
-void(*func[])(sf::RenderWindow&) = { ok_but, cancle_but };
+void(*func[])(sf::RenderWindow&) = { ok_but, end_but };
 //Koniec danych do okna alertu
 
 void play_screen()
@@ -56,6 +58,9 @@ void play_screen()
 	wall wall_3(850.f, 50.f, 250.f, 50.f, world, sf::Color::Green);
 	board board(850.f, 550.f, 250.f, 100.f);	
 	//End create object
+
+	//Counter
+	counter Counter(sf::Vector2f(150, 75), sf::Vector2f(20, 200), font, sf::Color::Yellow);
 
 	//Static step object
 	sf::Clock clock;
@@ -107,14 +112,17 @@ void play_screen()
 					delete Block.at(i);
 					Block.erase(Block.begin() + i);
 					i--;
+					Counter.increaseValue(200);
 				}
 			}
 
+			//Win
 			if (Block.empty())
 				alert_screen("Gratulacje wygranej!!!", 2, tekst, func);
 
+			//Lose
 			if (!board.isContain(ball.getPosition()))
-				States = Start;
+				alert_screen("Niestety straciles pilke!!!", 2, tekst, func);
 
 			timeSinceLastUpdate -= TimePerFrame;
 		}
@@ -131,6 +139,7 @@ void play_screen()
 		windows.draw(wall_3);
 		windows.draw(back);
 		windows.draw(pal);
+		windows.draw(Counter);
 
 		windows.display();
 	} //while

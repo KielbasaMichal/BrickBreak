@@ -10,6 +10,7 @@
 #include "ContactListener.h"
 #include "board.h"
 #include "wall.h"
+#include "counter.h"
 
 
 #define WIDTH 1280

@@ -7,7 +7,7 @@ sf::Font font;
 
 int main()
 {
-	if (!font.loadFromFile("data/arial.ttf"))
+	if (!font.loadFromFile("data/FunSized.ttf"))
 	{
 		std::cout << "Nie znaleziono czcionek!!!!";
 		return -2;

@@ -8,12 +8,15 @@ void button::draw(sf::RenderTarget &target, sf::RenderStates states) const
 }
 
 //public
-button::button(sf::Vector2f size, sf::Vector2f position, string text, sf::Font &fonts, sf::Color color): title(text, fonts, 20)
+button::button(sf::Vector2f size, sf::Vector2f position, string text, sf::Font &fonts, sf::Color color)
 {
 	setSize(size);
 	setPosition(position);
 	setFillColor(color);
 
+	title.setString(text);
+	title.setFont(fonts);
+	title.setCharacterSize(20);
 	title.setColor(sf::Color::Black);
 	sf::FloatRect title_pos = title.getLocalBounds();
 	title.setPosition((size.x-title_pos.width)/2+position.x, (size.y - title_pos.height) / 2 + position.y);
