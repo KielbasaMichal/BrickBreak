@@ -3,6 +3,7 @@
 using namespace std;
 
 vector <block*> Block;
+ball *Ball;
 
 //Dane to okna alertu
 string tekst[] = { "OK", "End"};
@@ -21,13 +22,19 @@ void end_but(sf::RenderWindow& windows)
 void(*func[])(sf::RenderWindow&) = { ok_but, end_but };
 //Koniec danych do okna alertu
 
+//Funkcje do budowy ryzgrywki
+void create_block(float x, float y, b2World &world, sf::Texture* tex, int ile_tex);
+void create_ball(float r, float x, float y, b2World &world, sf::Texture &tex);
+
 void play_screen()
 {
 	//Load texture
-	sf::Texture button_back, block_back, wall_back;
+	sf::Texture button_back, block_back, wall_back, wall_back2, ball_back;
 	button_back.loadFromFile("data/button0.png");
 	block_back.loadFromFile("data/block0.png");
 	wall_back.loadFromFile("data/wall0.png");
+	wall_back2.loadFromFile("data/block0.png");
+	ball_back.loadFromFile("data/ball.png");
 
 	//Game status
 	bool game_start = false;
@@ -35,31 +42,38 @@ void play_screen()
 	//Box2d create world
 	b2World world(b2Vec2(0.f, 0.f));
 
-	//Listener
-	ContactListener Listener;
-	world.SetContactListener(&Listener);
-
 	float32 timeStep = 1.0f / 60.0f;
 	int32 velocityIterations = 6;
 	int32 positionIterations = 2;
 
-	button back(sf::Vector2f(150, 75), sf::Vector2f(5, 5), "BACK", font, 30, sf::Color::Black, button_back);
+	//Listener
+	ContactListener Listener;
+	world.SetContactListener(&Listener);
+
+	button back(sf::Vector2f(150, 70), sf::Vector2f(75, 35), "BACK", font, 30, sf::Color::Black, button_back);
 	
 	//Start create game object
-	Block.clear();
-	for (int i = 0; i < 7; i++)
-	{
-		Block.push_back(new block(sf::Vector2f(50, 75), sf::Vector2f(350.f + i * 100, 200.f), world, block_back));
-	}
-
-	ball ball(15, sf::Vector2f(800, 400), world, "data/ball.png");
-	paddle pal(sf::Vector2f(150, 50), sf::Vector2f(650, 620), world, "data/paddle0.png");
-
+		create_block(75, 100, world, &block_back, 1);
+		create_ball(15, 700, 400, world, ball_back);
+		
+		const float pal_size_x = 150;
+		const float pal_size_y = 50;
+		paddle pal(sf::Vector2f(pal_size_x, pal_size_y), sf::Vector2f(650, HEIGHT*0.9+pal_size_x/2), world, "data/paddle0.png");
 	//board
-	wall wall_1(50.f, 600.f, 200.f, 50.f, world, wall_back);
-	wall wall_2(50.f, 600.f, 1100.f, 50.f, world, wall_back);
-	wall wall_3(850.f, 50.f, 250.f, 50.f, world, wall_back);
-	board board(850.f, 550.f, 250.f, 100.f, "data/board.png");	
+		//wymiary elementow pionowych
+		const float wid_p = 50;
+		const float hei_p = HEIGHT;
+	
+		wall wall_1(wid_p, hei_p, WIDTH / 4 + wid_p / 2, hei_p / 2, world, wall_back);
+		wall wall_2(wid_p, hei_p, WIDTH - wid_p / 2, hei_p / 2, world, wall_back);
+	
+		//wymiary elementow horyzontalnych
+		const float wid_h = ((WIDTH / 4) * 3);
+		const float hei_h = 50;
+	
+		wall wall_3(wid_h, hei_h, wid_h - (WIDTH/8), hei_h/2, world, wall_back2);
+	//Tlo planszy
+		board board(wid_h, hei_p*0.9, WIDTH / 4, 0.f, "data/board.png");
 	//End create object
 
 	//Counter
@@ -87,7 +101,7 @@ void play_screen()
 				}
 				if (event.type == sf::Event::KeyPressed && event.key.code == sf::Keyboard::Space && !game_start)
 				{
-					ball.getBody()->ApplyForce(b2Vec2(300.f, 300.f), ball.getBody()->GetWorldCenter(), true);
+					Ball->getBody()->ApplyForce(b2Vec2(300.f, 300.f), Ball->getBody()->GetWorldCenter(), true);
 					game_start = true;
 				}
 
@@ -95,15 +109,15 @@ void play_screen()
 
 			world.Step(timeStep, velocityIterations, positionIterations);		//Box2d update
 			
-			ball.update_pos();
+			Ball->update_pos();
 
-			if (game_start)
+			//if (game_start)
 			{
 				sf::Vector2f pos_mouse = (sf::Vector2f)sf::Mouse::getPosition(windows);
-				if (pos_mouse.x >= 1025)
-					pal.update_pos(1025.f, 620.f);
-				else if (pos_mouse.x <= 325)
-					pal.update_pos(325.f, 620.f);
+				if (pos_mouse.x >= WIDTH - wid_p - pal_size_x/2)
+					pal.update_pos(WIDTH - wid_p - pal_size_x/2, 620.f);
+				else if (pos_mouse.x <= WIDTH / 4 + wid_p + pal_size_x/2)
+					pal.update_pos(WIDTH / 4 + wid_p + pal_size_x/2, 620.f);
 				else
 					pal.update_pos(pos_mouse.x, 620.f);
 			}
@@ -115,7 +129,7 @@ void play_screen()
 					delete Block.at(i);
 					Block.erase(Block.begin() + i);
 					i--;
-					Counter.increaseValue(200);
+					Counter.increaseValue(10);
 				}
 			}
 
@@ -123,10 +137,10 @@ void play_screen()
 			if (Block.empty())
 				alert_screen("Gratulacje wygranej!!!", 2, tekst, func);
 
-			//Lose
-			if (!board.isContain(ball.getPosition()))
+			/*Lose
+			if (!board.isContain(Ball->getPosition()))
 				alert_screen("Niestety straciles pilke!!!", 2, tekst, func);
-
+				*/
 			timeSinceLastUpdate -= TimePerFrame;
 		}
 		windows.clear(sf::Color::Black);
@@ -139,7 +153,7 @@ void play_screen()
 		for (unsigned int i = 0;i < Block.size(); i++)
 			windows.draw(*Block[i]);
 
-		windows.draw(ball);
+		windows.draw(*Ball);
 		windows.draw(pal);
 
 		windows.draw(back);
@@ -147,4 +161,21 @@ void play_screen()
 
 		windows.display();
 	} //while
+}
+
+
+void create_block(float x, float y, b2World &world, sf::Texture* tex, int ile_tex)
+{
+	int ktora = rand() % ile_tex;
+	Block.clear();
+	for (int i = 0; i < 1; i++)
+	{
+		Block.push_back(new block(sf::Vector2f(x, y), sf::Vector2f(350.f + i * 100, 200.f), world, *(tex + ktora)));
+	}
+}
+
+void create_ball(float r, float x, float y, b2World &world, sf::Texture &tex)
+{
+	delete Ball;
+	Ball = new ball(15, sf::Vector2f(x, y), world, tex);
 }

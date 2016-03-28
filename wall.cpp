@@ -3,6 +3,7 @@
 wall::wall(sf::Vector2f size, sf::Vector2f position, b2World &world, std::string src_img)
 {
 	//SFML init
+	setOrigin(size.x / 2, size.y / 2);
 	setPosition(position);
 	setSize(size);
 	_texture = new sf::Texture;
@@ -33,6 +34,7 @@ wall::wall(float size_x, float size_y, float x, float y, b2World &world, std::st
 wall::wall(sf::Vector2f size, sf::Vector2f position, b2World & world, sf::Texture & src_tex)
 {
 	//SFML init
+	setOrigin(size.x / 2, size.y / 2);
 	setPosition(position);
 	setSize(size);
 	_texture = &src_tex;
@@ -42,7 +44,7 @@ wall::wall(sf::Vector2f size, sf::Vector2f position, b2World & world, sf::Textur
 	b2BodyDef b2_wall;
 	b2PolygonShape b2_shape;
 	b2FixtureDef b2_fix;
-	b2_wall.position.Set(pxtom(position.x + size.x / 2 - WIDTH / 2), pxtom(position.y + size.y / 2 - HEIGHT / 2)*(-1));
+	b2_wall.position.Set(pxtom(position.x - WIDTH / 2), pxtom(position.y - HEIGHT / 2)*(-1));
 	b2_wall.type = b2_staticBody;
 	_b2_wall_body = world.CreateBody(&b2_wall);
 	b2_shape.SetAsBox(pxtom(size.x / 2), pxtom(size.y / 2));

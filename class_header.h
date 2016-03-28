@@ -10,6 +10,6 @@
 #define DGtoRD(deg) (b2_pi * (deg) / 180.0f)
 #define RDtoDG(rad) ((rad) * (180.0f / b2_pi))
 
-//Wymiary okna potrzebne do niektorych funkcji
-#define WIDTH 1280
-#define HEIGHT 720
+//Wymiary okna potrzebne do niektorych funkcji, wymiar okna
+#define WIDTH 1280 //1600
+#define HEIGHT 720 //960

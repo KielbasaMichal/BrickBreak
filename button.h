@@ -2,7 +2,7 @@
 #include "class_header.h"
 
 ///button.h
-//Pozycja liczona od lewego gorne rogu elementu
+//Pozycja liczona od srodka elementu
 
 class button : public sf::RectangleShape
 {

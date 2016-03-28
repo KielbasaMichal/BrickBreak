@@ -12,6 +12,7 @@ button::button(sf::Vector2f size, sf::Vector2f position, std::string text, sf::F
 {
 	//Rectangle init
 	setSize(size);
+	setOrigin(size.x / 2, size.y / 2);
 	setPosition(position);
 	_texture = new sf::Texture;
 	_texture->loadFromFile(src_img);
@@ -23,7 +24,8 @@ button::button(sf::Vector2f size, sf::Vector2f position, std::string text, sf::F
 	_title.setCharacterSize(size_font);
 	_title.setColor(color_font);
 	sf::FloatRect title_pos = _title.getLocalBounds();
-	_title.setPosition((size.x-title_pos.width)/2+position.x, (size.y - title_pos.height) / 2 + position.y);
+	_title.setOrigin(title_pos.width / 2, title_pos.height / 2);
+	_title.setPosition(position.x, position.y);
 }
 
 button::button(float size_x, float size_y, float pos_x, float pos_y, std::string text, sf::Font & font, unsigned int size_font, sf::Color color_font, std::string src_img)
@@ -36,6 +38,7 @@ button::button(sf::Vector2f size, sf::Vector2f position, std::string text, sf::F
 {
 	//Rectangle init
 	setSize(size);
+	setOrigin(size.x / 2, size.y / 2);
 	setPosition(position);
 	_texture = &src_tex;
 	setTexture(_texture);
@@ -46,7 +49,8 @@ button::button(sf::Vector2f size, sf::Vector2f position, std::string text, sf::F
 	_title.setCharacterSize(size_font);
 	_title.setColor(color_font);
 	sf::FloatRect title_pos = _title.getLocalBounds();
-	_title.setPosition((size.x - title_pos.width) / 2 + position.x, (size.y - title_pos.height) / 2 + position.y);
+	_title.setOrigin(title_pos.width / 2, title_pos.height / 2);
+	_title.setPosition(position.x, position.y);
 }
 
 button::button(float size_x, float size_y, float pos_x, float pos_y, std::string text, sf::Font & font, unsigned int size_font, sf::Color color_font, sf::Texture &src_tex)

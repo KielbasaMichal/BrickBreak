@@ -70,3 +70,8 @@ void counter::increaseValue(int add)
 	_count.setPosition((size.x - count_pos.width) / 2 + pos.x, (size.y - count_pos.height) / 2 + pos.y);
 
 }
+
+int counter::getValue()
+{
+	return _value;
+}

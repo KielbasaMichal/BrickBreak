@@ -1,8 +1,8 @@
 #include "head.h"
 using namespace std;
 
-#define alert_x 450
-#define alert_y 150
+#define alert_x 600
+#define alert_y 200
 
 void alert_screen(string alert, int number_of_button, const string button_string[], void (*func[])(sf::RenderWindow&) )
 {

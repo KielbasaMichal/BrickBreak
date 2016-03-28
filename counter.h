@@ -23,6 +23,7 @@ public:
 	~counter();
 
 	void increaseValue(int add);
+	int getValue();
 	
 };
 
