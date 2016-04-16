@@ -23,11 +23,11 @@ void alert_screen(string alert, int number_of_button, const string button_string
 	
 	//Przyciski
 	vector <button*> buttons;
-	int _space = (alert_x - (number_of_button * 100)) / (number_of_button + 1);
-	int space = _space;
+	float _space = (alert_x - (number_of_button * 100.f)) / (number_of_button + 1);
+	float space = _space;
 	for (int i = 0; i < number_of_button; i++)
 	{
-		buttons.push_back(new button(sf::Vector2f(100.f, 30.f), sf::Vector2f(space, 100), button_string[i], font, 30, sf::Color::White, button_back));
+		buttons.push_back(new button(sf::Vector2f(100.f, 30.f), sf::Vector2f(space, 100.f), button_string[i], font, 30, sf::Color::White, button_back));
 		space += 100 + _space;
 	}
 	cout << endl;

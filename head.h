@@ -24,3 +24,12 @@ extern sf::Font font;
 void start_screen();
 void play_screen();
 void alert_screen(std::string alert, int number_of_button, const std::string button_string[], void (*func[])(sf::RenderWindow&));
+
+//Ranking
+struct Rank
+{
+	int _val;
+	std::string _name;
+};
+extern std::vector<Rank> rank;
+void loadRank(std::string src);
