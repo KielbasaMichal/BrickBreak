@@ -4,7 +4,6 @@
 sf::RenderWindow windows(sf::VideoMode(WIDTH, HEIGHT), "Brick Break", sf::Style::Titlebar);
 State States = Start;
 sf::Font font;
-
 std::vector <Rank> rank;
 
 int main()
@@ -30,10 +29,13 @@ int main()
 		case Play:
 			play_screen();
 			break;
+		case TopP:
+			//TODO topp_screen();
+			break;
 		}
 
 	}
-	addRank(7, "ala", rank);
+
 	saveRank(src, rank);
 	return 0;
 }

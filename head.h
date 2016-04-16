@@ -15,6 +15,7 @@ enum State
 	End = 0,
 	Start = 1,
 	Play = 2,
+	TopP = 3,
 };
 
 extern sf::RenderWindow windows;
