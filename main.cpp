@@ -9,14 +9,14 @@ std::vector <Rank> rank;
 
 int main()
 {
-	std::cout << "Hello !!!!";
+	const std::string src = "data/rank.txt";
 	if (!font.loadFromFile("data/FunSized.ttf"))
 	{
 		std::cout << "Nie znaleziono czcionek!!!!";
 		return -2;
 	}
 
-	loadRank("data/rank.txt");
+	loadRank(src, rank);
 
 	while (States != End)
 	{
@@ -33,5 +33,7 @@ int main()
 		}
 
 	}
-
+	addRank(7, "ala", rank);
+	saveRank(src, rank);
+	return 0;
 }

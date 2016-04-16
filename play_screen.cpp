@@ -197,9 +197,7 @@ void create_block(float x, float y, float width, float heigth, sf::Vector2f size
 				Block.push_back(new block(size2, sf::Vector2f(x2 + size2.x / 2, y2), world, *(tex + ktora)));
 				offset = true;
 			}
-			//cout << x2 << " ; " << x + width << endl;
 		}
-		cout << offset << endl;
 	}
 }
 

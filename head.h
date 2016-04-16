@@ -32,4 +32,6 @@ struct Rank
 	std::string _name;
 };
 extern std::vector<Rank> rank;
-void loadRank(std::string src);
+void loadRank(std::string src, std::vector<Rank> &vr);
+void saveRank(std::string src, std::vector<Rank> &vr);
+bool addRank(int val, std::string name, std::vector<Rank> &vr);
