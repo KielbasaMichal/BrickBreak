@@ -19,11 +19,11 @@ void start_screen()
 				States = End;
 			if (event.type == sf::Event::MouseButtonPressed && event.key.code == sf::Mouse::Left)
 			{
-				if (start.check_mouse_click(windows))
+				if (start.mouse_over_button(windows))
 					States = Play;
-				if (rank.check_mouse_click(windows))
+				if (rank.mouse_over_button(windows))
 					States = States;
-				if (exit.check_mouse_click(windows))
+				if (exit.mouse_over_button(windows))
 					States = End;
 			}
 

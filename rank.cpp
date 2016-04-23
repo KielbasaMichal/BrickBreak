@@ -1,16 +1,18 @@
 #include "head.h"
 #include <fstream>
 #include <algorithm>
+#include "Rank.h"
 
-void loadRank(std::string src, std::vector<Rank> &vr)
+void Rank::loadRankFromFile()
 {
+	//load data in format "scrore name"
 	std::fstream in;
-	in.open(src, std::ios::in);
+	in.open(_src, std::ios::in);
 
 	if (!in.is_open())		//create file if doesn't exist
 	{
 		in.clear();
-		in.open(src, std::ios::out);
+		in.open(_src, std::ios::out);
 		in.close();
 	}
 	else
@@ -22,45 +24,66 @@ void loadRank(std::string src, std::vector<Rank> &vr)
 			val = atoi(get.c_str());
 			name = get.substr(get.find(" ") + 1);
 
-			Rank temp;
+			Data temp;
 			temp._name = name;
 			temp._val = val;
-			vr.push_back(temp);
-
-			std::cout << name << val << std::endl;
-
+			_data.push_back(temp);
 		}
 	}
+	return;
 }
 
-void saveRank(std::string src, std::vector<Rank> &vr)
+void Rank::saveRankToFile()
 {
 	std::fstream in;
-	in.open(src, std::ios::out);
-	for (int i = 0;i < vr.size();i++)
+	in.open(_src, std::ios::out);
+	for (int unsigned i = 0;i < _data.size();i++)
 	{
-		Rank temp = vr.at(i);
+		Data temp = _data.at(i);
 		in << temp._val << " " << temp._name << std::endl;
 	}
+	return;
 }
 
-int compRank(Rank a, Rank b)
-{
-	return (a._val > b._val);
-}
 
-bool addRank(int val, std::string name, std::vector<Rank> &vr)
+void Rank::addToRank(int val, std::string name)
 {
-	if (val > vr.at(vr.size()-1)._val)
+	if (val > _data.at(_data.size() - 1)._val)
 	{
-		Rank temp;
+		Data temp;
 		temp._name = name;
 		temp._val = val;
-		vr.push_back(temp);
-		std::sort(vr.begin(), vr.end(), compRank);
-		while(vr.size() > 10)			// zapisuje tylko 10 najlepszych zawodnikow!!!!
-			vr.pop_back();
-		return true;
+		_data.push_back(temp);
+		sortRank();
 	}
-	return false;
+	return;
+}
+
+void Rank::sortRank()
+{
+	std::sort(_data.begin(), _data.end(), Data::compData);
+
+	while (_data.size() > 10)							// przechowuje tylko 10 najlepszych wyników!!!!
+		_data.pop_back();
+	return;
+}
+
+int Rank::getSizeRank()
+{
+	return _data.size();
+}
+
+std::vector<Rank::Data>& Rank::getRank()
+{
+	return _data;
+}
+
+Rank::Rank(std::string src) : _src(src)
+{
+	loadRankFromFile();
+	sortRank();
+}
+
+Rank::~Rank()
+{
 }

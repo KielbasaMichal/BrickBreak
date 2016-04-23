@@ -53,7 +53,7 @@ void alert_screen(string alert, int number_of_button, const string button_string
 				{
 					for (int i = 0; i < number_of_button; i++)
 					{
-						if (buttons.at(i)->check_mouse_click(okno))
+						if (buttons.at(i)->mouse_over_button(okno))
 						{
 							func[i](okno);
 						}

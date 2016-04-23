@@ -63,7 +63,7 @@ button::~button()
 {
 }
 
-bool button::check_mouse_click(sf::RenderWindow &windows)
+bool button::mouse_over_button(sf::RenderWindow &windows)
 {
 	if (getGlobalBounds().contains((sf::Vector2f)sf::Mouse::getPosition(windows)))
 		return true;

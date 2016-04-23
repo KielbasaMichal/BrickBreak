@@ -21,6 +21,6 @@ public:
 
 	~button();
 
-	bool check_mouse_click(sf::RenderWindow &windows);
+	bool mouse_over_button(sf::RenderWindow &windows);
 };
 

@@ -4,6 +4,7 @@
 ///wall.h
 //Pozycja liczona od srodka elementu
 //Sciany do ograniczenia pola rozgrywki
+
 class wall : public sf::RectangleShape
 {
 	sf::Texture* _texture;

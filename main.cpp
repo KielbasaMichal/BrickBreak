@@ -4,18 +4,15 @@
 sf::RenderWindow windows(sf::VideoMode(WIDTH, HEIGHT), "Brick Break", sf::Style::Titlebar);
 State States = Start;
 sf::Font font;
-std::vector <Rank> rank;
+Rank rank("data/rank.txt");
 
 int main()
 {
-	const std::string src = "data/rank.txt";
 	if (!font.loadFromFile("data/FunSized.ttf"))
 	{
 		std::cout << "Nie znaleziono czcionek!!!!";
-		return -2;
+		return -1;
 	}
-
-	loadRank(src, rank);
 
 	while (States != End)
 	{
@@ -36,6 +33,6 @@ int main()
 
 	}
 
-	saveRank(src, rank);
+	rank.saveRankToFile();
 	return 0;
 }

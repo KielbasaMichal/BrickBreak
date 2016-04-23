@@ -98,7 +98,7 @@ void play_screen()
 					States = End;
 				if (event.type == sf::Event::MouseButtonPressed && event.key.code == sf::Mouse::Left)
 				{
-					if (back.check_mouse_click(windows))
+					if (back.mouse_over_button(windows))
 						States = Start;
 				}
 				if (event.type == sf::Event::KeyPressed && event.key.code == sf::Keyboard::Space && !game_start)
