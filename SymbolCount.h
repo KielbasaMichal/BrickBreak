@@ -3,8 +3,9 @@
 #include "counter.h"
 
 ///class_header.h
-//Klasa wyœwietlaj¹ca w sposób graficzny iloœæ pozosta³ych ¿yæ
-//Posiada w³asny font który zawiera symbol jaki ma wyœwietlaæ
+//Klasa wyœwietlaj¹ca w sposób graficzny wartoœæ licznika
+//Wyœwietla ona wybrany przez nas znak odpowiedni¹ iloœæ razy
+//Pozycja liczona od srodka elementu
 
 class SymbolCount : public counter
 {

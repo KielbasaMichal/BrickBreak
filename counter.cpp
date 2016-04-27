@@ -13,14 +13,14 @@ counter::counter(sf::Vector2f size, sf::Vector2f position, sf::Font & font, std:
 	_Text.setColor(color_font);
 
 	setSize(size);
+	setOrigin(size.x / 2, size.y / 2);
 	setPosition(position);
 	_Texture = new sf::Texture;
 	_Texture->loadFromFile(src_img);
 	setTexture(_Texture);
 
-	sf::FloatRect count_pos = _Text.getLocalBounds();
-	_Text.setPosition((size.x - count_pos.width) / 2 + position.x, (size.y - count_pos.height) / 2 + position.y);
-	
+	_Text.setPosition(position);
+	CenterText();
 }
 
 counter::counter(float size_x, float size_y, float pos_x, float pos_y, sf::Font & font, std::string src_img, int size_font, sf::Color color_font)
@@ -36,13 +36,14 @@ counter::counter(sf::Vector2f size, sf::Vector2f position, sf::Font & font, sf::
 	_Text.setColor(color_font);
 
 	setSize(size);
+	setOrigin(size.x / 2, size.y / 2);
 	setPosition(position);
 	_Texture = new sf::Texture;
 	_Texture = &src_tex;
 	setTexture(_Texture);
 
-	sf::FloatRect count_pos = _Text.getLocalBounds();
-	_Text.setPosition((size.x - count_pos.width) / 2 + position.x, (size.y - count_pos.height) / 2 + position.y);
+	_Text.setPosition(position);
+	CenterText();
 }
 
 counter::counter(float size_x, float size_y, float pos_x, float pos_y, sf::Font & font, sf::Texture &src_tex, int size_font, sf::Color color_font)
@@ -57,10 +58,8 @@ counter::~counter()
 
 void counter::CenterText()
 {
-	sf::Vector2f pos = getPosition();
-	sf::Vector2f size = getSize();
 	sf::FloatRect count_pos = _Text.getLocalBounds();
-	_Text.setPosition((size.x - count_pos.width) / 2 + pos.x, (size.y - count_pos.height) / 2 + pos.y);
+	_Text.setOrigin(count_pos.width / 2, count_pos.height / 2 + _Text.getCharacterSize()*0.15f);
 }
 
 void counter::setString(std::string text)

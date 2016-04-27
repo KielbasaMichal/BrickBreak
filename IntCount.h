@@ -1,6 +1,11 @@
 #pragma once
 #include "class_header.h"
 #include "counter.h"
+
+///IntCount.h
+//Klasa do wyswietlania watrosci typu int
+//Pozycja liczona od srodka elementu
+
 class IntCount : public counter
 {
 private:

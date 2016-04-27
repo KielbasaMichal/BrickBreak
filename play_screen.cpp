@@ -31,13 +31,13 @@ void play_screen()
 	//Font for SymbolCounter
 	sf::Font sFont;
 	sFont.loadFromFile("data/My_Big_Heart.ttf");
+
 	//Load texture
 	sf::Texture button_back, block_back[5], wall_back, wall_back2, ball_back;
 	button_back.loadFromFile("data/button0.png");
 	for (int i = 0;i < 5;i++)
 		block_back[i].loadFromFile("data/block" + to_string(i) + ".png");
 	wall_back.loadFromFile("data/wall0.png");
-	wall_back2.loadFromFile("data/wall0.png");
 	ball_back.loadFromFile("data/ball.png");
 
 	//Game status
@@ -59,7 +59,8 @@ void play_screen()
 	//Start create game object
 		const float pal_size_x = 150;
 		const float pal_size_y = 50;
-		paddle pal(sf::Vector2f(pal_size_x, pal_size_y), sf::Vector2f(650, HEIGHT*0.9+pal_size_x/2), world, "data/paddle0.png");
+		const float pal_pos_y = HEIGHT*0.9 - pal_size_y / 2;
+		paddle pal(sf::Vector2f(pal_size_x, pal_size_y), sf::Vector2f(WIDTH*0.625, pal_pos_y), world, "data/paddle0.png");
 	//board
 		//wymiary elementow pionowych
 		const float wid_p = 50;
@@ -72,7 +73,7 @@ void play_screen()
 		const float wid_h = ((WIDTH / 4) * 3);
 		const float hei_h = 50;
 	
-		wall wall_3(wid_h, hei_h, wid_h - (WIDTH/8), hei_h/2, world, wall_back2);
+		wall wall_3(wid_h, hei_h, wid_h - (WIDTH/8), hei_h/2, world, wall_back);
 	//Tlo planszy
 		board board(wid_h, hei_p*0.9, WIDTH / 4, 0.f, "data/board.png");
 
@@ -82,8 +83,8 @@ void play_screen()
 	//End create object
 
 	//Counters
-	IntCount Counter(sf::Vector2f(150, 75), sf::Vector2f(20, 200), font, button_back, 40, sf::Color::Black);
-	SymbolCount SCounter(sf::Vector2f(150, 75), sf::Vector2f(20, 300), sFont, button_back, 40, sf::Color::Red, '*');
+	IntCount Counter(sf::Vector2f(200, 75), sf::Vector2f(120, 200), font, button_back, 40, sf::Color::Black);
+	SymbolCount SCounter(sf::Vector2f(200, 75), sf::Vector2f(120, 300), sFont, button_back, 50, sf::Color::Red, '*');
 
 	//Static step object
 	sf::Clock clock;
@@ -121,11 +122,11 @@ void play_screen()
 			{
 				sf::Vector2f pos_mouse = (sf::Vector2f)sf::Mouse::getPosition(windows);
 				if (pos_mouse.x >= WIDTH - wid_p - pal_size_x/2)
-					pal.update_pos(WIDTH - wid_p - pal_size_x/2, 620.f);
+					pal.update_pos(WIDTH - wid_p - pal_size_x/2, pal_pos_y);
 				else if (pos_mouse.x <= WIDTH / 4 + wid_p + pal_size_x/2)
-					pal.update_pos(WIDTH / 4 + wid_p + pal_size_x/2, 620.f);
+					pal.update_pos(WIDTH / 4 + wid_p + pal_size_x/2, pal_pos_y);
 				else
-					pal.update_pos(pos_mouse.x, 620.f);
+					pal.update_pos(pos_mouse.x, pal_pos_y);
 			}
 			
 			for (unsigned int i = 0; i < Block.size(); i++)				//check block
