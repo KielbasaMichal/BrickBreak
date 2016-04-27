@@ -8,7 +8,8 @@
 #include "ContactListener.h"
 #include "board.h"
 #include "wall.h"
-#include "counter.h"
+#include "IntCount.h"
+#include "SymbolCount.h"
 #include "Rank.h"
 
 enum State

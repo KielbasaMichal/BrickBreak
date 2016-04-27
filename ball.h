@@ -12,11 +12,14 @@ class ball : public sf::CircleShape
 	b2Body* _b2_ball_body;
 	b2CircleShape _b2_shape;
 	b2FixtureDef _b2_fix;
+	bool _forceApply;
 public:
 	ball(float r, sf::Vector2f position, b2World &world, std::string src_img);
 	ball(float r, sf::Vector2f position, b2World &world, sf::Texture &src_tex);
 	~ball();
-
+	
+	bool isForceApply();
+	void ApplyForce(b2Vec2 force, b2Vec2 point, bool wake = true);
 	void update_pos();
 	b2Body* getBody();
 };

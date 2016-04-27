@@ -3,6 +3,8 @@
 
 ball::ball(float r, sf::Vector2f position, b2World &world, std::string src_img)
 {
+	_forceApply = false;
+
 	//SFML init
 	_texture = new sf::Texture;
 	_texture->loadFromFile(src_img);
@@ -26,6 +28,8 @@ ball::ball(float r, sf::Vector2f position, b2World &world, std::string src_img)
 
 ball::ball(float r, sf::Vector2f position, b2World & world, sf::Texture & src_tex)
 {
+	_forceApply = false;
+
 	//SFML init
 	_texture = &src_tex;
 	setTexture(_texture);
@@ -48,6 +52,20 @@ ball::ball(float r, sf::Vector2f position, b2World & world, sf::Texture & src_te
 
 ball::~ball()
 {
+}
+
+bool ball::isForceApply()
+{
+	return _forceApply;
+}
+
+void ball::ApplyForce(b2Vec2 force, b2Vec2 point, bool wake)
+{
+	if (_forceApply)
+		return;
+
+	_b2_ball_body->ApplyForce(force, point, wake);
+	_forceApply = true;
 }
 
 void ball::update_pos()

@@ -10,7 +10,7 @@ string tekst[] = { "OK", "End"};
 
 void ok_but(sf::RenderWindow& windows)
 {
-	States = Start;
+	//States = Start; 
 	windows.close();
 }
 
@@ -28,6 +28,9 @@ void create_ball(float r, float x, float y, b2World &world, sf::Texture &tex);
 
 void play_screen()
 {
+	//Font for SymbolCounter
+	sf::Font sFont;
+	sFont.loadFromFile("data/My_Big_Heart.ttf");
 	//Load texture
 	sf::Texture button_back, block_back[5], wall_back, wall_back2, ball_back;
 	button_back.loadFromFile("data/button0.png");
@@ -78,8 +81,9 @@ void play_screen()
 		create_ball(15, 700, 550, world, ball_back);
 	//End create object
 
-	//Counter
-	counter Counter(sf::Vector2f(150, 75), sf::Vector2f(20, 200), font, button_back);
+	//Counters
+	IntCount Counter(sf::Vector2f(150, 75), sf::Vector2f(20, 200), font, button_back, 40, sf::Color::Black);
+	SymbolCount SCounter(sf::Vector2f(150, 75), sf::Vector2f(20, 300), sFont, button_back, 40, sf::Color::Red, '*');
 
 	//Static step object
 	sf::Clock clock;
@@ -101,9 +105,9 @@ void play_screen()
 					if (back.mouse_over_button(windows))
 						States = Start;
 				}
-				if (event.type == sf::Event::KeyPressed && event.key.code == sf::Keyboard::Space && !game_start)
+				if (event.type == sf::Event::KeyPressed && event.key.code == sf::Keyboard::Space)
 				{
-					Ball->getBody()->ApplyForce(b2Vec2(150.f, 150.f), Ball->getBody()->GetWorldCenter(), true);
+					Ball->ApplyForce(b2Vec2(150.f, 150.f), Ball->getBody()->GetWorldCenter());
 					game_start = true;
 				}
 
@@ -141,8 +145,11 @@ void play_screen()
 
 			//Lose
 			if (!board.isContain(Ball->getPosition()))
+			{
+				SCounter.deleteOne();
 				alert_screen("Niestety straciles pilke!!!", 2, tekst, func);
-			
+				create_ball(15, 700, 550, world, ball_back);
+			}
 			timeSinceLastUpdate -= TimePerFrame;
 		}
 		windows.clear(sf::Color::Black);
@@ -160,6 +167,7 @@ void play_screen()
 
 		windows.draw(back);
 		windows.draw(Counter);
+		windows.draw(SCounter);
 
 		windows.display();
 	} //while
