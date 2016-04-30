@@ -68,6 +68,18 @@ void paddle::update_pos(float x, float y)
 	setPosition(pos.x, pos.y);
 }
 
+void paddle::update_pos_x_in_rage(sf::Vector2f updateTo, float min, float max)
+{
+	sf::Vector2f size = getSize();
+	sf::Vector2f pos = getPosition();
+	if (updateTo.x >= max - size.x/2)
+		update_pos(max - size.x / 2, pos.y);
+	else if (updateTo.x <= min +size.x/2)
+		update_pos(min + size.x / 2, pos.y);
+	else
+		update_pos(updateTo.x, pos.y);
+}
+
 b2Body * paddle::getBody()
 {
 	return _b2_block_body;

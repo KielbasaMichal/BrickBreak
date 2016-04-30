@@ -20,5 +20,6 @@ public:
 	~IntCount();
 
 	void increaseValue(int add);
+	int getValue();
 };
 

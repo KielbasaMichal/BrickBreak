@@ -21,6 +21,7 @@ public:
 
 	~paddle();
 	void update_pos(float x, float y);
+	void update_pos_x_in_rage(sf::Vector2f updateTo, float min, float max);
 	b2Body* getBody();
 
 	static void rand_init();

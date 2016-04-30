@@ -48,3 +48,8 @@ void SymbolCount::deleteOne()
 	_value -= 1;
 	createString();
 }
+
+int SymbolCount::getValue()
+{
+	return _value;
+}

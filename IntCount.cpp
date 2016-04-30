@@ -38,3 +38,8 @@ void IntCount::increaseValue(int add)
 	setString(std::to_string(_value));
 	CenterText();
 }
+
+int IntCount::getValue()
+{
+	return _value;
+}

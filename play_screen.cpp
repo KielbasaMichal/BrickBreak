@@ -1,90 +1,35 @@
 #include "head.h"
-
-using namespace std;
-
-vector <block*> Block;
-ball *Ball;
-
-//Dane to okna alertu
-string tekst[] = { "OK", "End"};
-
-void ok_but(sf::RenderWindow& windows)
-{
-	//States = Start; 
-	windows.close();
-}
-
-void end_but(sf::RenderWindow& windows)
-{
-	States = End;
-	windows.close();
-}
-void(*func[])(sf::RenderWindow&) = { ok_but, end_but };
-//Koniec danych do okna alertu
-
-//Funkcje do budowy ryzgrywki
-void create_block(float x, float y, float width, float heigth, sf::Vector2f size, b2World &world, sf::Texture* tex, int ile_tex);
-void create_ball(float r, float x, float y, b2World &world, sf::Texture &tex);
+#include "play_screen.h"
 
 void play_screen()
 {
-	//Font for SymbolCounter
-	sf::Font sFont;
-	sFont.loadFromFile("data/My_Big_Heart.ttf");
-
-	//Load texture
-	sf::Texture button_back, block_back[5], wall_back, wall_back2, ball_back;
-	button_back.loadFromFile("data/button0.png");
-	for (int i = 0;i < 5;i++)
-		block_back[i].loadFromFile("data/block" + to_string(i) + ".png");
-	wall_back.loadFromFile("data/wall0.png");
-	ball_back.loadFromFile("data/ball.png");
-
-	//Game status
-	bool game_start = false;
-
-	//Box2d create world
+	//Box2d
 	b2World world(b2Vec2(0.f, 0.f));
-
-	float32 timeStep = 1.0f / 60.0f;
-	int32 velocityIterations = 6;
-	int32 positionIterations = 2;
-
+		float32 timeStep = 1.0f / 60.0f;
+		int32 velocityIterations = 6;
+		int32 positionIterations = 2;
 	//Listener
-	ContactListener Listener;
-	world.SetContactListener(&Listener);
-
-	button back(sf::Vector2f(150, 70), sf::Vector2f(75, 35), "BACK", font, 30, sf::Color::Black, button_back);
-	
-	//Start create game object
-		const float pal_size_x = 150;
-		const float pal_size_y = 50;
-		const float pal_pos_y = HEIGHT*0.9 - pal_size_y / 2;
-		paddle pal(sf::Vector2f(pal_size_x, pal_size_y), sf::Vector2f(WIDTH*0.625, pal_pos_y), world, "data/paddle0.png");
-	//board
-		//wymiary elementow pionowych
-		const float wid_p = 50;
-		const float hei_p = HEIGHT;
-	
-		wall wall_1(wid_p, hei_p, WIDTH / 4 + wid_p / 2, hei_p / 2, world, wall_back);
-		wall wall_2(wid_p, hei_p, WIDTH - wid_p / 2, hei_p / 2, world, wall_back);
-	
-		//wymiary elementow horyzontalnych
-		const float wid_h = ((WIDTH / 4) * 3);
-		const float hei_h = 50;
-	
-		wall wall_3(wid_h, hei_h, wid_h - (WIDTH/8), hei_h/2, world, wall_back);
-	//Tlo planszy
-		board board(wid_h, hei_p*0.9, WIDTH / 4, 0.f, "data/board.png");
-
+		ContactListener Listener;
+		world.SetContactListener(&Listener);
+	//End Box2d
+		
+	//SFML
+		
+	loadTexture(TextureSrc, 10);
 	//Elementy do gry
-		create_block(WIDTH/4+wid_p, hei_h, wid_h - 2*wid_p, HEIGHT*0.5, sf::Vector2f(40, 40), world, block_back, 5);
-		create_ball(15, 700, 550, world, ball_back);
-	//End create object
-
-	//Counters
-	IntCount Counter(sf::Vector2f(200, 75), sf::Vector2f(120, 200), font, button_back, 40, sf::Color::Black);
-	SymbolCount SCounter(sf::Vector2f(200, 75), sf::Vector2f(120, 300), sFont, button_back, 50, sf::Color::Red, '*');
+		button back(sf::Vector2f(150, 70), sf::Vector2f(75, 35), "BACK", font, 30, sf::Color::Black, Texture.at(5));
+		paddle paddle(sf::Vector2f(paddle_size_x, paddle_size_y), sf::Vector2f(WIDTH*0.625, HEIGHT*0.9 - paddle_size_y / 2), world, Texture[8]);
+		wall wall_left(board_border_size, HEIGHT, WIDTH / 4 + board_border_size / 2, HEIGHT / 2, world, Texture.at(6));
+		wall wall_right(board_border_size, HEIGHT, WIDTH - board_border_size / 2, HEIGHT / 2, world, Texture.at(6));
+		wall wall_top(((WIDTH / 4) * 3), board_border_size, ((WIDTH / 4) * 3) - (WIDTH / 8), board_border_size / 2, world, Texture.at(6));
+		board board_background(((WIDTH / 4) * 3), HEIGHT*0.9, WIDTH / 4, 0.f, Texture.at(9));
+		create_block(WIDTH/4+board_border_size, board_border_size, ((WIDTH / 4) * 3) - 2*board_border_size, HEIGHT*0.5, sf::Vector2f(40, 40), world, Texture, 5);
+		create_ball(15, 700, 550, world, Texture[7]);
+		IntCount Counter(sf::Vector2f(200, 75), sf::Vector2f(120, 200), font, Texture.at(5), 40, sf::Color::Black);
+			sf::Font sFont;
+			sFont.loadFromFile("data/My_Big_Heart.ttf");
+		SymbolCount SCounter(sf::Vector2f(200, 75), sf::Vector2f(120, 300), sFont, Texture.at(5), 50, sf::Color::Red, '*');
+	//End SFML
 
 	//Static step object
 	sf::Clock clock;
@@ -109,27 +54,17 @@ void play_screen()
 				if (event.type == sf::Event::KeyPressed && event.key.code == sf::Keyboard::Space)
 				{
 					Ball->ApplyForce(b2Vec2(150.f, 150.f), Ball->getBody()->GetWorldCenter());
-					game_start = true;
+					
 				}
 
 			} //while
 
-			world.Step(timeStep, velocityIterations, positionIterations);		//Box2d update
+			world.Step(timeStep, velocityIterations, positionIterations);		//Box2d update world
 			
 			Ball->update_pos();
-
-			//if (game_start)
-			{
-				sf::Vector2f pos_mouse = (sf::Vector2f)sf::Mouse::getPosition(windows);
-				if (pos_mouse.x >= WIDTH - wid_p - pal_size_x/2)
-					pal.update_pos(WIDTH - wid_p - pal_size_x/2, pal_pos_y);
-				else if (pos_mouse.x <= WIDTH / 4 + wid_p + pal_size_x/2)
-					pal.update_pos(WIDTH / 4 + wid_p + pal_size_x/2, pal_pos_y);
-				else
-					pal.update_pos(pos_mouse.x, pal_pos_y);
-			}
+			paddle.update_pos_x_in_rage((sf::Vector2f)sf::Mouse::getPosition(windows), WIDTH / 4 + board_border_size, WIDTH - board_border_size);
 			
-			for (unsigned int i = 0; i < Block.size(); i++)				//check block
+			for (unsigned int i = 0; i < Block.size(); i++)				//check block flag
 			{
 				if (Block.at(i)->isContact())
 				{
@@ -145,26 +80,33 @@ void play_screen()
 				alert_screen("Gratulacje wygranej!!!", 2, tekst, func);
 
 			//Lose
-			if (!board.isContain(Ball->getPosition()))
+			if (!board_background.isContain(Ball->getPosition()) && SCounter.getValue())
 			{
 				SCounter.deleteOne();
-				alert_screen("Niestety straciles pilke!!!", 2, tekst, func);
-				create_ball(15, 700, 550, world, ball_back);
+				if (SCounter.getValue())
+				{
+					alert_screen("Niestety straciles pilke!!!", 2, tekst, func);
+					create_ball(15, 700, 550, world, Texture.at(7));
+				}
+				else
+				{
+					alert_screen("Nie masz juz zyc : ( !!!", 2, tekst, func);
+				}
 			}
 			timeSinceLastUpdate -= TimePerFrame;
 		}
 		windows.clear(sf::Color::Black);
 
-		windows.draw(board);
-		windows.draw(wall_1);
-		windows.draw(wall_2);
-		windows.draw(wall_3);
+		windows.draw(board_background);
+		windows.draw(wall_left);
+		windows.draw(wall_right);
+		windows.draw(wall_top);
 
 		for (unsigned int i = 0;i < Block.size(); i++)
 			windows.draw(*Block[i]);
 
 		windows.draw(*Ball);
-		windows.draw(pal);
+		windows.draw(paddle);
 
 		windows.draw(back);
 		windows.draw(Counter);
@@ -172,46 +114,4 @@ void play_screen()
 
 		windows.display();
 	} //while
-}
-
-
-void create_block(float x, float y, float width, float heigth, sf::Vector2f size, b2World &world, sf::Texture* tex, int ile_tex)
-{
-	int ktora = 0, next = 0;
-	bool offset = false;
-	sf::Vector2f size2;
-	Block.clear();
-	float y2 = y + size.y / 2;
-	for (; y2+size.y < y + heigth; y2 += size.y)
-	{
-		for (float x2 = x; x2 < x + width; x2 += size.x)
-		{
-			while (ktora == next)
-				next = rand() % ile_tex;
-			ktora = next;
-			if (offset)
-			{
-				Block.push_back(new block(size2, sf::Vector2f(x2 + size2.x / 2, y2), world, *(tex + ktora)));
-				x2 -= (size.x - size2.x);
-				offset = false;
-			}
-			else if (x2 + size.x < x + width)
-			{
-				Block.push_back(new block(size, sf::Vector2f(x2 + size.x / 2, y2), world, *(tex + ktora)));
-			}
-			else
-			{
-				size2.x = (x + width) - x2;
-				size2.y = size.y;
-				Block.push_back(new block(size2, sf::Vector2f(x2 + size2.x / 2, y2), world, *(tex + ktora)));
-				offset = true;
-			}
-		}
-	}
-}
-
-void create_ball(float r, float x, float y, b2World &world, sf::Texture &tex)
-{
-	delete Ball;
-	Ball = new ball(15, sf::Vector2f(x, y), world, tex);
 }

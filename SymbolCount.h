@@ -22,5 +22,6 @@ public:
 	~SymbolCount();
 
 	void deleteOne();
+	int getValue();
 };
 
