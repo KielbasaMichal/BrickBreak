@@ -44,12 +44,12 @@ void top_screen()
 			}
 			if (event.type == sf::Event::MouseWheelMoved)
 			{
-				if (event.mouseWheel.delta == 1)		//rolka do gï¿½ry
+				if (event.mouseWheel.delta == 1)		//rolka do góry
 				{
 					pos_y -= 50;
 					TView.reset(sf::FloatRect(0, pos_y, WIDTH, HEIGHT));
 				}
-				else			//rolka na dï¿½
+				else			//rolka na dó³
 				{
 					pos_y += 50;
 					TView.reset(sf::FloatRect(0, pos_y, WIDTH, HEIGHT));
@@ -64,11 +64,11 @@ void top_screen()
 		windows.setView(TView);		//Nowy widok
 		windows.draw(rank);
 		
-		windows.setView(windows.getDefaultView());		//Koniec elementï¿½w dla nowego widoku, rysujemy elementy na ktï¿½re widok nie ma wpï¿½ywu
+		windows.setView(windows.getDefaultView());		//Koniec elementów dla nowego widoku, rysujemy elementy na które widok nie ma wp³ywu
 
 		windows.draw(back);
-		windows.draw(down);		//Do przesuwania widoku w dï¿½
-		windows.draw(up);		//Do przesuwania widoku w gï¿½rï¿½
+		windows.draw(down);		//Do przesuwania widoku w dó³
+		windows.draw(up);		//Do przesuwania widoku w górê
 
 		windows.display();
 	} //while
