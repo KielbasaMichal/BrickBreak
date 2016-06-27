@@ -23,7 +23,7 @@ void play_screen()
 		wall wall_right(board_border_size, HEIGHT, WIDTH - board_border_size / 2, HEIGHT / 2, world, Texture.at(6));
 		wall wall_top(((WIDTH / 4) * 3), board_border_size, ((WIDTH / 4) * 3) - (WIDTH / 8), board_border_size / 2, world, Texture.at(6));
 		board board_background(((WIDTH / 4) * 3), HEIGHT*0.9, WIDTH / 4, 0.f, Texture.at(9));
-		create_block(WIDTH/4+board_border_size, board_border_size, ((WIDTH / 4) * 3) - 2*board_border_size, HEIGHT*0.5, sf::Vector2f(40, 40), world, Texture, 5);
+		create_block(WIDTH/4+board_border_size, board_border_size, ((WIDTH / 4) * 3) - 2*board_border_size, HEIGHT*0.5, sf::Vector2f(80, 60), world, Texture, 5);
 		create_ball(15, 700, 550, world, Texture[7]);
 		IntCount Counter(sf::Vector2f(200, 75), sf::Vector2f(120, 200), font, Texture.at(5), 40, sf::Color::Black);
 			sf::Font sFont;

@@ -10,21 +10,22 @@
 #include "wall.h"
 #include "IntCount.h"
 #include "SymbolCount.h"
-#include "Rank.h"
+#include "RankView.h"
 
 enum State
 {
 	End = 0,
 	Start = 1,
 	Play = 2,
-	TopP = 3,
+	Top = 3,
 };
 
 extern sf::RenderWindow windows;
 extern State States;
 extern sf::Font font;
-extern Rank rank;
+extern RankView rank;
 
 void start_screen();
 void play_screen();
+void top_screen();
 void alert_screen(std::string alert, int number_of_button, const std::string button_string[], void (*func[])(sf::RenderWindow&));

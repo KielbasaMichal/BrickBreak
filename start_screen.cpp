@@ -22,7 +22,7 @@ void start_screen()
 				if (start.mouse_over_button(windows))
 					States = Play;
 				if (rank.mouse_over_button(windows))
-					States = States;
+					States = Top;
 				if (exit.mouse_over_button(windows))
 					States = End;
 			}
